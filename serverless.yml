@@ -7,28 +7,55 @@ provider:
   stage: ${self:provider.environment.stage}
   versionFunctions: false
   environment: ${file(./config/env.${opt:param}.yml)}
-  # deploymentBucket:
-  #   name: ${self:custom.deploymentBucket}
-  #   serverSideEncryption: AES256
+  deploymentBucket:
+    name: ${self:custom.deploymentBucket}
+    serverSideEncryption: AES256
 
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - s3:ListBucket
-        - s3:GetObject
-      Resource: arn:aws:s3:::${self:provider.environment.BUCKET_NAME}/*
-
-    - Effect: Allow
-      Action:
-        - bedrock:ListFoundationModels
-        - bedrock:InvokeModel
-      Resource: "*"
-    
-    - Effect: Allow
-      Action:
-        - textract:StartDocumentAnalysis
-        - textract:GetDocumentAnalysis
-      Resource: "*"
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:ListBucket
+            - s3:GetObject
+          Resource: arn:aws:s3:::${self:provider.environment.BUCKET_NAME}/*
+        - Effect: Allow
+          Action:
+            - bedrock:ListFoundationModels
+            - bedrock:InvokeModel
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - textract:StartDocumentAnalysis
+            - textract:GetDocumentAnalysis
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+          Resource: arn:aws:logs:${self:custom.region}:*:*
+        - Effect: Allow
+          Action:
+            - lambda:InvokeFunction
+            - lambda:CreateFunction
+            - lambda:UpdateFunctionCode
+            - lambda:UpdateFunctionConfiguration
+            - lambda:GetFunctionConfiguration
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - apigateway:GET
+            - apigateway:POST
+            - apigateway:PUT
+            - apigateway:DELETE
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - aws-marketplace:Subscribe
+            - aws-marketplace:Unsubscribe
+            - aws-marketplace:ViewSubscriptions
+          Resource: "*"
 
   # Tag del Cloud Formation
   stackTags:
@@ -87,7 +114,7 @@ custom:
   # Funciones
   fnPostAssistancePdf: postassistancepdf
 
-  # deploymentBucket: ${ssm:/config/sales-services/deployment_bucket}
+  deploymentBucket: ${ssm:/config/sales-services/deployment_bucket}
   
   # Otros
   serverlessPluginTypescript:

@@ -1,28 +1,25 @@
 import { BUCKET_NAME, BUCKET_PATH_CV, BEDROCK_MODEL_ID } from '../common/constantes';
 import { listFilesInS3 } from '../util/S3';
-import { askBedrock, analyzeCVWithAI } from '../util/BedrockRuntime';
+import { askClaude35Sonnet } from '../util/BedrockRuntime';
 import { extractText } from '../util/Textract';
 import { CodeError } from '../exceptions/codeError';
 
 class PostAssistancePdfServices {
-  static readonly Post = async (question: string) => {
+  static readonly Post = async (body: any) => {
 
     try {
       const files = await listFilesInS3(BUCKET_NAME, BUCKET_PATH_CV);
-      const cvData = [];
-
-      console.log("BEDROCK_MODEL_ID: ",BEDROCK_MODEL_ID)
+      const cvData = []
+      console.log("files: ",files)
       for (const file of files) {
         console.log(`Procesando archivo: ${file}`);
         const extractedText = await extractText(BUCKET_NAME, file);
-        console.log(`Datos extraido `);
-        const structuredCV = await analyzeCVWithAI(extractedText, BEDROCK_MODEL_ID);
-        cvData.push(JSON.parse(structuredCV));
+        cvData.push(extractedText)
       }
     
       console.log("CVs procesados:", cvData);
 
-      const answer = await askBedrock(question, cvData, BEDROCK_MODEL_ID);
+      const answer = await askClaude35Sonnet(body.question, cvData, BEDROCK_MODEL_ID);
 
       return answer;
     } catch (error: any) {

@@ -12,7 +12,7 @@ postAssistancePdf:
     ${self:provider.environment.envAbr}\
     ${self:custom.nm}"
 
-  timeout: 30
+  timeout: 60
   memorySize: 256
 
   # Layer para la Lambda
