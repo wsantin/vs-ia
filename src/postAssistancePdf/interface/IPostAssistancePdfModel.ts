@@ -1,3 +1,3 @@
 export interface IPostAssistancePdfModel {
-    message: string;
+    question: string;
 }

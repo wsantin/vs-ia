@@ -52,6 +52,9 @@ export const askClaude35Sonnet = async (question: string, cvData: string[], mode
     };
 
     console.log("Enviando petición a Claude 3.5 con el siguiente prompt:", requestBody.body);
+    
+    // API CONVERTS - OTRA SOLUCION knowledgebase, Trabajar con Raw.
+    // DB VECTORIAL, bedrock y trae el texto directamente.
 
     const response = await bedrock.invokeModel(requestBody);
     if (!response.body) throw new CodeError("Bedrock no devolvió respuesta válida", 409);

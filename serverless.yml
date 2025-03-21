@@ -10,7 +10,6 @@ provider:
   deploymentBucket:
     name: ${self:custom.deploymentBucket}
     serverSideEncryption: AES256
-
   iam:
     role:
       statements:
@@ -18,23 +17,27 @@ provider:
           Action:
             - s3:ListBucket
             - s3:GetObject
-          Resource: arn:aws:s3:::${self:provider.environment.BUCKET_NAME}/*
+          Resource: "*"
+
         - Effect: Allow
           Action:
             - bedrock:ListFoundationModels
             - bedrock:InvokeModel
           Resource: "*"
+
         - Effect: Allow
           Action:
             - textract:StartDocumentAnalysis
             - textract:GetDocumentAnalysis
           Resource: "*"
+
         - Effect: Allow
           Action:
             - logs:CreateLogGroup
             - logs:CreateLogStream
             - logs:PutLogEvents
-          Resource: arn:aws:logs:${self:custom.region}:*:*
+          Resource: "*"
+
         - Effect: Allow
           Action:
             - lambda:InvokeFunction
@@ -43,18 +46,13 @@ provider:
             - lambda:UpdateFunctionConfiguration
             - lambda:GetFunctionConfiguration
           Resource: "*"
+
         - Effect: Allow
           Action:
             - apigateway:GET
             - apigateway:POST
             - apigateway:PUT
             - apigateway:DELETE
-          Resource: "*"
-        - Effect: Allow
-          Action:
-            - aws-marketplace:Subscribe
-            - aws-marketplace:Unsubscribe
-            - aws-marketplace:ViewSubscriptions
           Resource: "*"
 
   # Tag del Cloud Formation

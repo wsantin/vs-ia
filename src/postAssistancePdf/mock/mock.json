@@ -1,66 +1,20 @@
 {
-  body: '{\r\n    "question": "prueba"\r\n}',
-  headers: {
-    'Content-Type': 'application/json',
-    'User-Agent': 'PostmanRuntime/7.43.2',
-    Accept: '*/*',
-    'Cache-Control': 'no-cache',
-    'Postman-Token': '40240a10-605c-402d-80bb-c5e3daa627b0',
-    Host: 'localhost:3000',
-    'Accept-Encoding': 'gzip, deflate, br',
-    Connection: 'keep-alive',
-    'Content-Length': '30'
+  "body": "{\"question\": \"¿Quienes son de Peru?\"}",
+  "method": "POST",
+  "query": {
   },
-  httpMethod: 'POST',
-  isBase64Encoded: false,
-  multiValueHeaders: {
-    'Content-Type': [ 'application/json' ],
-    'User-Agent': [ 'PostmanRuntime/7.43.2' ],
-    Accept: [ '*/*' ],
-    'Cache-Control': [ 'no-cache' ],
-    'Postman-Token': [ '40240a10-605c-402d-80bb-c5e3daa627b0' ],
-    Host: [ 'localhost:3000' ],
-    'Accept-Encoding': [ 'gzip, deflate, br' ],
-    Connection: [ 'keep-alive' ],
-    'Content-Length': [ '30' ]
+  "path": {
   },
-  multiValueQueryStringParameters: null,
-  path: '/app/assistance/pdf/v1',
-  pathParameters: null,
-  queryStringParameters: null,
-  requestContext: {
-    accountId: 'offlineContext_accountId',
-    apiId: 'offlineContext_apiId',
-    domainName: 'offlineContext_domainName',
-    domainPrefix: 'offlineContext_domainPrefix',
-    extendedRequestId: '29b3f1ac-0bf5-4874-acf5-f969bc3e7e5a',
-    httpMethod: 'POST',
-    identity: {
-      accessKey: null,
-      accountId: 'offlineContext_accountId',
-      apiKey: 'offlineContext_apiKey',
-      apiKeyId: 'offlineContext_apiKeyId',
-      caller: 'offlineContext_caller',
-      cognitoAuthenticationProvider: 'offlineContext_cognitoAuthenticationProvider',
-      cognitoAuthenticationType: 'offlineContext_cognitoAuthenticationType',
-      cognitoIdentityId: 'offlineContext_cognitoIdentityId',
-      cognitoIdentityPoolId: 'offlineContext_cognitoIdentityPoolId',
-      principalOrgId: null,
-      sourceIp: '::1',
-      user: 'offlineContext_user',
-      userAgent: 'PostmanRuntime/7.43.2',
-      userArn: 'offlineContext_userArn'
-    },
-    operationName: undefined,
-    path: '/app/assistance/pdf/v1',
-    protocol: 'HTTP/1.1',
-    requestId: 'd212d3c1-8120-4f61-86a7-687ea182f448',
-    requestTime: '20/Mar/2025:21:14:43 -0500',
-    requestTimeEpoch: 1742523283629,
-    resourceId: 'offlineContext_resourceId',
-    resourcePath: '/dev/app/assistance/pdf/v1',
-    stage: 'dev'
+  "stage": "dev",
+  "headers": {
+    "ASSET-ID": "ia",
+    "Authorization": "••••••",
+    "USER-ID": "1",
+    "UUID": "8dbe43b5-c561-4e09-853b-58e94b800c58"
   },
-  resource: '/app/assistance/pdf/v1',
-  stageVariables: null
+  "requestPath": "app/assistance/pdf/v1",
+  "cognitoPoolClaims": {},
+  "enhancedAuthContext": {},
+  "stageVariables": {}
 }
+  
