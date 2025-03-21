@@ -1,0 +1,46 @@
+# Funcion Lambda 1
+postAssistancePdf:
+  # Disparador de la funcion Lambda
+  handler: src/postAssistancePdf/handler.index
+  disableLogs: true
+
+  # Nombre de la funcion Lambda
+  name: "${self:custom.domainAbr}\
+    ${self:custom.assetid}\
+    ${self:custom.lambdaResource}\
+    ${self:custom.fnPostAssistancePdf}\
+    ${self:provider.environment.envAbr}\
+    ${self:custom.nm}"
+
+  timeout: 30
+  memorySize: 256
+
+  # Layer para la Lambda
+  layers:
+    - arn:aws:lambda:${self:provider.region}:${self:provider.environment.ACCOUNT}:layer:vsserviceslayeria${self:provider.environment.envAbr}01:latest
+
+  # Empaquetado de la funcion
+  package:
+    patterns:
+      - '!src/**/*'
+      - '!node_modules/**/*'
+      - '!layers/**/*'
+      - '!test/**/*'
+      - 'src/postAssistancePdf/**/*'
+
+  # API Gateway con Authorizer
+  events:
+    - http:
+        path: app/assistance/pdf/v1
+        method: post
+        cors: true
+
+  # Tags de la Lambda
+  tags:
+    DOMAIN: ${self:custom.domain}
+    ASSETID: ${self:custom.assetid}
+    PROJECT: ${self:custom.project}
+    RESOURCE: ${self:custom.lambdaResource}
+    ROL: ${self:custom.fnPostAssistancePdf}
+    ENV: ${self:provider.environment.stage}
+    NM: ${self:custom.nm}

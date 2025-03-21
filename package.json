@@ -1,0 +1,49 @@
+{
+  "name": "assitancepdf",
+  "version": "1.0.0",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Walter Santin",
+  "license": "ISC",
+  "description": "Asistencia de PDF",
+  "scripts": {
+    "test": "eslint .",
+    "start": "serverless offline start --param dev --reloadHandler",
+    "disabled": "serverless slstats --disable",
+    "devops:dev": "serverless deploy --param dev --aws-profile personal --verbose",
+    "devops:pre": "serverless deploy --param pre --aws-profile personal --verbose",
+    "devops:prod": "serverless deploy --param prod --aws-profile personal --verbose"
+  },
+  "dependencies": {
+    "jest": "^29.7.0",
+    "joi": "^17.13.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "preset": "ts-jest",
+    "testMatch": [
+      "**/**/*.test.ts"
+    ],
+    "testEnvironment": "node"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.772.0",
+    "@types/aws-lambda": "^8.10.147",
+    "@types/jest": "^29.5.2",
+    "@types/serverless": "^3.12.11",
+    "aws-sdk": "^2.1692.0",
+    "eslint": "^9.18.0",
+    "serverless": "^3.40.0",
+    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-latest-layer-version": "^2.1.2",
+    "serverless-offline": "^13.9.0",
+    "serverless-plugin-reducer": "^4.0.1",
+    "serverless-plugin-typescript": "^2.1.5",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.22.0"
+  }
+}

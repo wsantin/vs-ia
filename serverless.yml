@@ -1,0 +1,108 @@
+service: ${self:custom.serviceName}
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ${self:custom.region}
+  stage: ${self:provider.environment.stage}
+  versionFunctions: false
+  environment: ${file(./config/env.${opt:param}.yml)}
+  # deploymentBucket:
+  #   name: ${self:custom.deploymentBucket}
+  #   serverSideEncryption: AES256
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:ListBucket
+        - s3:GetObject
+      Resource: arn:aws:s3:::${self:provider.environment.BUCKET_NAME}/*
+
+    - Effect: Allow
+      Action:
+        - bedrock:ListFoundationModels
+        - bedrock:InvokeModel
+      Resource: "*"
+    
+    - Effect: Allow
+      Action:
+        - textract:StartDocumentAnalysis
+        - textract:GetDocumentAnalysis
+      Resource: "*"
+
+  # Tag del Cloud Formation
+  stackTags:
+    DOMAIN: ${self:custom.domain}
+    ASSETID: ${self:custom.assetid}
+    PROJECT: ${self:custom.project}
+    RESOURCE: ${self:custom.cformResource}
+    ROL: ${self:custom.cformRol}
+    ENV: ${self:provider.environment.stage}
+    NM: ${self:custom.nm}
+    
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript
+  - serverless-dotenv-plugin
+  - serverless-plugin-reducer
+  - serverless-latest-layer-version
+
+# Funciones Lambda
+functions: ${file(./config/functions.yml)}
+
+# LogGroup
+resources:
+  Resources:
+    LogsGroupAsistentePdf:
+      Type: AWS::Logs::LogGroup
+      Properties:
+        LogGroupName: /aws/lambda/${self:custom.domainAbr}${self:custom.assetid}${self:custom.lambdaResource}${self:custom.fnPostAssistancePdf}${self:provider.environment.envAbr}${self:custom.nm}
+        RetentionInDays: ${self:provider.environment.logRetentionInDays}
+        LogGroupClass: ${self:provider.environment.logGroupClass}
+
+
+# Variables
+custom:
+  # Region
+  region: us-east-1
+  # Nombre del Stack de Cloud Formation
+  serviceName: "${self:custom.domainAbr}\
+    ${self:custom.assetid}\
+    ${self:custom.cformResource}\
+    ${self:custom.cformRol}\
+    ${self:provider.environment.envAbr}\
+    ${self:custom.nm}"
+
+  # Tags reutilizable
+  domain: sales-services
+  domainAbr: vs
+  assetid: ia
+  project: iabusiness
+  nm: '01'
+  # Tags del Stack de CloudFormation
+  cformResource: cform
+  cformRol: assistance
+  # Tags de las Lambdas
+  lambdaResource: lambda
+  # Funciones
+  fnPostAssistancePdf: postassistancepdf
+
+  # deploymentBucket: ${ssm:/config/sales-services/deployment_bucket}
+  
+  # Otros
+  serverlessPluginTypescript:
+    tsConfigFileLocation: './tsconfig.json'
+  reducer:
+    ignoreMissing: true
+
+# Empaquetado
+package:
+  individually: true
+  excludeDevDependencies: true
+  patterns:
+    - '!node_modules/**/*'
+    - '!test/**/*'
+    - 'src/**/*'
+    - .git/**
+  
+
